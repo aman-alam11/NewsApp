@@ -6,13 +6,6 @@
     android:weightSum="2">
 
     <!--This divided view will be replaced with tabbed view in near future-->
-
-    <ProgressBar
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
-
     <LinearLayout
         android:id="@+id/topLayerNews"
         android:layout_width="match_parent"

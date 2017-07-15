@@ -26,16 +26,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Title Of News"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+            android:textColor="#000" />
 
         <TextView
             android:id="@+id/newsSnippetTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Content Snippet"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small.Inverse"
+            android:textColor="@color/black_overlay" />
     </LinearLayout>
 
 

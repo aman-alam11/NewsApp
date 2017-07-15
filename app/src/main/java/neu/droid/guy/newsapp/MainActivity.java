@@ -1,14 +1,21 @@
 package neu.droid.guy.newsapp;
 
-import android.app.LoaderManager;
 import android.content.Intent;
-import android.content.Loader;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Object> {
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    public static ArrayList<News> newsArrayListFromAsyncTask = null;
+    public static newsAsyncTask newNewsAsyncTask = new newsAsyncTask();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,21 +32,30 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         usNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                newNewsAsyncTask.execute();
                 Intent i = new Intent(MainActivity.this, newsListView.class);
+                startActivity(i);
+                finish();
             }
         });
 
         ukNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                newNewsAsyncTask.execute();
                 Intent i = new Intent(MainActivity.this, newsListView.class);
+                startActivity(i);
+                finish();
             }
         });
 
         euNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                newNewsAsyncTask.execute();
                 Intent i = new Intent(MainActivity.this, newsListView.class);
+                startActivity(i);
+                finish();
             }
         });
 
@@ -47,32 +63,40 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         asNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                newNewsAsyncTask.execute();
                 Intent i = new Intent(MainActivity.this, newsListView.class);
+                startActivity(i);
+                finish();
             }
         });
 
-
-        //Use Loaders here to make a network call to fetch data from API and feed it here
-        getLoaderManager().initLoader(0,null, MainActivity.this);
     }
 
 
-    @Override
-    public Loader<Object> onCreateLoader(int i, Bundle bundle) {
-        return null;
+
+    public static class newsAsyncTask extends AsyncTask<Void, Void, ArrayList> {
+
+
+        @Override
+        protected ArrayList<News> doInBackground(Void... voids) {
+            ArrayList<News> list = new ArrayList<>();
+            try {
+                list = new FetchDataFromAPI().feedToAsyncTask();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList a) {
+            newsArrayListFromAsyncTask = a;
+        }
+
     }
-
-    @Override
-    public void onLoadFinished(Loader<Object> loader, Object o) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Object> loader) {
-
-    }
-
-    
 
 
 }

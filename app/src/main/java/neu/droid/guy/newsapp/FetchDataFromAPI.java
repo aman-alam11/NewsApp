@@ -1,5 +1,9 @@
 package neu.droid.guy.newsapp;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,23 +11,28 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 
-public class FetchDataFromAPI {
+public class FetchDataFromAPI extends ArrayList<News> {
 
     public static String query_URL_API = "http://content.guardianapis.com/uk-news?api-key=test";
     public static String json = null;
-    private URL url_to_hit = null;
+    private static URL url_to_hit = null;
 
 
-    public FetchDataFromAPI() throws IOException {
-//        url_to_hit = convertStringToURL(query_URL_API);
-//        make_api_call(url_to_hit);
+    public void FetchDataFromAPI() {
+    }
+
+    public ArrayList<News> feedToAsyncTask() throws IOException, JSONException {
+        url_to_hit = convertStringToURL(query_URL_API);
+        String json = make_api_call(url_to_hit);
+        return parseAPIResponse(json);
     }
 
     //STEP 1: Convert String to URL
 
-    private URL convertStringToURL(String url) {
+    private static URL convertStringToURL(String url) {
 //        Log.e("convertStringToURL","INSIDE convertStringToURL");
         try {
             url_to_hit = new URL(url);
@@ -34,7 +43,7 @@ public class FetchDataFromAPI {
     }
 
     //STEP 2: Make the call
-    public String make_api_call(URL url) throws IOException{
+    public static String make_api_call(URL url) throws IOException {
 
         HttpURLConnection urlConnection = null;
 
@@ -63,7 +72,7 @@ public class FetchDataFromAPI {
     }//End of make_api_call function
 
 
-    public String readUsingBufferedStream(InputStream stream) throws IOException {
+    public static String readUsingBufferedStream(InputStream stream) throws IOException {
 
         InputStreamReader streamReader = new InputStreamReader(stream);
         BufferedReader reader = new BufferedReader(streamReader);
@@ -79,6 +88,50 @@ public class FetchDataFromAPI {
     }//End of readUsingBufferedStream
 
 
-    private void parseAPIResponse(String res){}
+    public static ArrayList<News> parseAPIResponse(String res) throws JSONException {
+        JSONObject mainObject = null;
+        ArrayList<News> newsArrayList = new ArrayList();
 
-}
+        //Assign the JSON string to a JSON object to be parsed
+        try {
+            mainObject = new JSONObject(res);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JSONObject response = mainObject.getJSONObject("response");
+        JSONArray parsedArrayResultsFromAPI = response.getJSONArray("results");
+        JSONObject[] arrayOfJSONObject = new JSONObject[parsedArrayResultsFromAPI.length()];
+
+        if (arrayOfJSONObject.length != 0) {
+
+            for (int i = 0; i < parsedArrayResultsFromAPI.length(); i++) {
+
+                // Take a empty JSONArray and assign each Object and
+                // make a new JSONArray for each object to iterate over its specific
+                // elements of each JSON object
+                arrayOfJSONObject[i] = parsedArrayResultsFromAPI.getJSONObject(i);
+
+                //Extract data by iterating on that JSON Array
+
+                //The title of the news
+                String titleOfNews = arrayOfJSONObject[i].getString("webTitle");
+//                Log.e("TITLE", titleOfNews);
+
+                //For now, lets put the id of the news as Snippet
+                String newsSnippet = arrayOfJSONObject[i].getString("id");
+//                Log.e("NEWS SNIPPET", newsSnippet);
+
+                // TODO: parse the main content and show the first 10 lines as snippet
+                String mainContent = arrayOfJSONObject[i].getString("apiUrl");
+//                Log.e("MIAN CONTENT", mainContent);
+
+                newsArrayList.add(new News(titleOfNews, newsSnippet, R.color.colorAccent, mainContent));
+            }
+        }
+
+        return newsArrayList;
+    }//End of parseAPIResponse
+
+}//End of class
+
