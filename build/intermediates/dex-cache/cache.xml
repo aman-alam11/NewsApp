@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dark Horse\Documents\GitHub\NewsApp\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="ee08696e9c0791ec4e08ce07a6a9e47a8044e1f7">
+        <dex dex="C:\Users\Dark Horse\Documents\GitHub\NewsApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_b17940a39efc9ae66f81f5eeb4e26013fbcf02c2\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dark Horse\Documents\NewsApp\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="cac76fc50bdb91e02b6b3ca2fb468ce664dfe266">
+        <dex dex="C:\Users\Dark Horse\Documents\NewsApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_542a9d43a89d821dc752db8b960d366e84717158\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dark Horse\Documents\NewsApp\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="C:\Users\Dark Horse\Documents\NewsApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_569df438dc3f6e8f29c84ae648a77087a120d41f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dark Horse\Documents\GitHub\NewsApp\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="C:\Users\Dark Horse\Documents\GitHub\NewsApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_a63f1a35ebdb437d494a983e75ddd98a1472c3ae\classes.dex" />
+    </item>
+
+</items>
