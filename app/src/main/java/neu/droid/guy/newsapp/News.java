@@ -6,17 +6,15 @@ public class News {
     private String mTitle;
     private String mContentSnippet;
     private String mMainNews;
+    private int mImageId;
 
-    public News(String title, String contentSnippet, String mainNews) {
+    public News(String title, String contentSnippet, int imageId, String mainNews) {
+        mImageId = imageId;
         mTitle = title;
         mContentSnippet = contentSnippet;
         mMainNews = mainNews;
     }
 
-
-    public News(String title){
-        this.mTitle = title;
-    }
 
     public String getTitle(){
         return mTitle;
@@ -30,4 +28,8 @@ public class News {
         return mMainNews;
     }
 
+
+    public int getImageResourceId() {
+        return mImageId;
+    }
 }

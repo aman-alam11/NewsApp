@@ -7,6 +7,7 @@
     android:orientation="horizontal">
 
     <ImageView
+        android:id="@+id/newsThumbnailImage"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:background="@color/colorAccent"
@@ -21,6 +22,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/titleNewsTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Title Of News"
@@ -28,6 +30,7 @@
             android:textColor="@color/colorPrimaryDark" />
 
         <TextView
+            android:id="@+id/newsSnippetTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Content Snippet"

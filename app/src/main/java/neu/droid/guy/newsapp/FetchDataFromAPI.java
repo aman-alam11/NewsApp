@@ -11,7 +11,7 @@ import java.net.URL;
 
 public class FetchDataFromAPI {
 
-    public static String query_URL_API = "http://content.guardianapis.com/us-news?api-key=test";
+    public static String query_URL_API = "http://content.guardianapis.com/uk-news?api-key=test";
     public static String json = null;
     private URL url_to_hit = null;
 
