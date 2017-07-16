@@ -45,7 +45,7 @@ public class NewsArrayAdapter extends ArrayAdapter<News> {
 
         //Set the Thumbnail View of Image
         ImageView getThumbnailViewNews = (ImageView) listItemView.findViewById(R.id.newsThumbnailImage);
-        getThumbnailViewNews.setImageResource(news.getImageResourceId());
+        getThumbnailViewNews.setImageBitmap(news.getImageResourceId());
 
         return listItemView;
 

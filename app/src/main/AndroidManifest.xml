@@ -15,10 +15,12 @@
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".newsListView" />
+        <activity android:name=".NewsListView" />
+        <activity android:name=".DetailedNewsContent"></activity>
     </application>
 
 </manifest>

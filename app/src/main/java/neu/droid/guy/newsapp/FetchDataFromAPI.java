@@ -1,5 +1,8 @@
 package neu.droid.guy.newsapp;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,7 +19,7 @@ import java.util.ArrayList;
 
 public class FetchDataFromAPI extends ArrayList<News> {
 
-    public static String query_URL_API = "http://content.guardianapis.com/uk-news?api-key=test";
+    public static String query_URL_API = "http://content.guardianapis.com/uk-news?api-key=test&show-fields=all";
     public static String json = null;
     private static URL url_to_hit = null;
 
@@ -90,6 +93,8 @@ public class FetchDataFromAPI extends ArrayList<News> {
 
     public static ArrayList<News> parseAPIResponse(String res) throws JSONException {
         JSONObject mainObject = null;
+        URL imageString = null;
+        Bitmap thumbnail = null;
         ArrayList<News> newsArrayList = new ArrayList();
 
         //Assign the JSON string to a JSON object to be parsed
@@ -102,15 +107,23 @@ public class FetchDataFromAPI extends ArrayList<News> {
         JSONObject response = mainObject.getJSONObject("response");
         JSONArray parsedArrayResultsFromAPI = response.getJSONArray("results");
         JSONObject[] arrayOfJSONObject = new JSONObject[parsedArrayResultsFromAPI.length()];
+        JSONObject[] arrayOfShowFields = new JSONObject[arrayOfJSONObject.length];
+
+        for (int i = 0; i < parsedArrayResultsFromAPI.length(); i++) {
+            // Take a empty JSONArray and assign each Object and
+            // make a new JSONArray for each object to iterate over its specific
+            // elements of each JSON object
+            arrayOfJSONObject[i] = parsedArrayResultsFromAPI.getJSONObject(i);
+            arrayOfShowFields[i] = arrayOfJSONObject[i].getJSONObject("fields");
+        }
+
 
         if (arrayOfJSONObject.length != 0) {
 
             for (int i = 0; i < parsedArrayResultsFromAPI.length(); i++) {
 
-                // Take a empty JSONArray and assign each Object and
-                // make a new JSONArray for each object to iterate over its specific
-                // elements of each JSON object
-                arrayOfJSONObject[i] = parsedArrayResultsFromAPI.getJSONObject(i);
+
+                JSONObject fields = arrayOfJSONObject[i].getJSONObject("fields");
 
                 //Extract data by iterating on that JSON Array
 
@@ -118,15 +131,39 @@ public class FetchDataFromAPI extends ArrayList<News> {
                 String titleOfNews = arrayOfJSONObject[i].getString("webTitle");
 //                Log.e("TITLE", titleOfNews);
 
-                //For now, lets put the id of the news as Snippet
-                String newsSnippet = arrayOfJSONObject[i].getString("id");
-//                Log.e("NEWS SNIPPET", newsSnippet);
 
-                // TODO: parse the main content and show the first 10 lines as snippet
-                String mainContent = arrayOfJSONObject[i].getString("apiUrl");
-//                Log.e("MIAN CONTENT", mainContent);
+                //Set the content Snippet
+                String newsSnippet = fields.getString("trailText");
 
-                newsArrayList.add(new News(titleOfNews, newsSnippet, R.color.colorAccent, mainContent));
+                //Set the main Content
+                String mainContent = fields.getString("bodyText");
+//                Log.e("MAIN_CONTENT", mainContent);
+
+
+                try {
+                    imageString = new URL(fields.getString("thumbnail"));
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    HttpURLConnection urlConnection = (HttpURLConnection) imageString.openConnection();
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.connect();
+                    if (urlConnection.getResponseCode() == 200) {
+                        InputStream stream = urlConnection.getInputStream();
+
+                        thumbnail = BitmapFactory.decodeStream(stream);
+                    } else {
+                        urlConnection.disconnect();
+
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                newsArrayList.add(new News(titleOfNews, newsSnippet, thumbnail, mainContent));
             }
         }
 

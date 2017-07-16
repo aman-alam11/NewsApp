@@ -1,14 +1,16 @@
 package neu.droid.guy.newsapp;
 
 
+import android.graphics.Bitmap;
+
 public class News {
 
     private String mTitle;
     private String mContentSnippet;
     private String mMainNews;
-    private int mImageId;
+    private Bitmap mImageId;
 
-    public News(String title, String contentSnippet, int imageId, String mainNews) {
+    public News(String title, String contentSnippet, Bitmap imageId, String mainNews) {
         mImageId = imageId;
         mTitle = title;
         mContentSnippet = contentSnippet;
@@ -29,7 +31,7 @@ public class News {
     }
 
 
-    public int getImageResourceId() {
+    public Bitmap getImageResourceId() {
         return mImageId;
     }
 }

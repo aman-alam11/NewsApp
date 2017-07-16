@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 newNewsAsyncTask.execute();
-                Intent i = new Intent(MainActivity.this, newsListView.class);
+                Intent i = new Intent(MainActivity.this, NewsListView.class);
                 startActivity(i);
                 finish();
             }
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 newNewsAsyncTask.execute();
-                Intent i = new Intent(MainActivity.this, newsListView.class);
+                Intent i = new Intent(MainActivity.this, NewsListView.class);
                 startActivity(i);
                 finish();
             }
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 newNewsAsyncTask.execute();
-                Intent i = new Intent(MainActivity.this, newsListView.class);
+                Intent i = new Intent(MainActivity.this, NewsListView.class);
                 startActivity(i);
                 finish();
             }
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 newNewsAsyncTask.execute();
-                Intent i = new Intent(MainActivity.this, newsListView.class);
+                Intent i = new Intent(MainActivity.this, NewsListView.class);
                 startActivity(i);
                 finish();
             }
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    //TODO: Replace this asynctask with a Loader
     public static class newsAsyncTask extends AsyncTask<Void, Void, ArrayList> {
 
 
