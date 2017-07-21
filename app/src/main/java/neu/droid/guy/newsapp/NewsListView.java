@@ -16,6 +16,8 @@ import java.io.ByteArrayOutputStream;
 
 import static neu.droid.guy.newsapp.MainActivity.newNewsAsyncTask;
 import static neu.droid.guy.newsapp.MainActivity.newsArrayListFromAsyncTask;
+import static neu.droid.guy.newsapp.MainActivity.usNewsAsyncTask;
+import static neu.droid.guy.newsapp.MainActivity.usaNewsArrayListFromAsyncTask;
 
 public class NewsListView extends AppCompatActivity {
     public ProgressBar pBar;
@@ -33,7 +35,8 @@ public class NewsListView extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.list);
         moreB = (Button) findViewById(R.id.moreButton);
 
-        new trackAsyncTask().execute();
+//        new trackAsyncTask().execute();
+        new trackAsyncTaskUSNEWS().execute();
 
     }// End of onCreate()
 
@@ -48,6 +51,7 @@ public class NewsListView extends AppCompatActivity {
         lv.setVisibility(View.VISIBLE);
 //        moreB.setVisibility(View.VISIBLE);
         final NewsArrayAdapter adapter = new NewsArrayAdapter(NewsListView.this, newsArrayListFromAsyncTask);
+//        final NewsArrayAdapter adapter = new NewsArrayAdapter(NewsListView.this, usaNewsArrayListFromAsyncTask);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -67,6 +71,7 @@ public class NewsListView extends AppCompatActivity {
                 showMainNewsIntent.putExtra("HEADLINES", newsItem.getTitle());
                 startActivity(showMainNewsIntent);
             }
+
         });
 
 
@@ -117,5 +122,27 @@ public class NewsListView extends AppCompatActivity {
         }
 
     }//End of AsyncTask trackAsyncTask
+
+    public class trackAsyncTaskUSNEWS extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            while (
+                    ((usNewsAsyncTask.getStatus() == Status.RUNNING)
+                            || (usNewsAsyncTask.getStatus() == Status.PENDING)
+                            || (usaNewsArrayListFromAsyncTask == null))
+                    ) {
+                //DO NOTHING
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            setAdapterOnAsyncTaskComplete();
+        }
+
+    }//End of AsyncTaskUSNEWS trackAsyncTaskUSNEWS
 
 }

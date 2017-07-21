@@ -14,8 +14,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String query_URL_API = "http://content.guardianapis.com/uk-news?api-key=test&show-fields=all";
     public static ArrayList<News> newsArrayListFromAsyncTask = null;
+    public static ArrayList<News> usaNewsArrayListFromAsyncTask = null;
     public static newsAsyncTask newNewsAsyncTask = new newsAsyncTask();
+    public static nytNewsAsyncTask usNewsAsyncTask = new nytNewsAsyncTask();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,30 +35,35 @@ public class MainActivity extends AppCompatActivity {
         usNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newNewsAsyncTask.execute();
+                query_URL_API="https://api.nytimes.com/svc/topstories/v2/home.json?&api-key=";
+                if (!usNewsAsyncTask.getStatus().toString().equals("FINISHED")) {
+                    usNewsAsyncTask.execute();
+                }
                 Intent i = new Intent(MainActivity.this, NewsListView.class);
                 startActivity(i);
-                finish();
             }
         });
 
         ukNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newNewsAsyncTask.execute();
+                if (!newNewsAsyncTask.getStatus().toString().equals("FINISHED")) {
+                    newNewsAsyncTask.execute();
+                }
+
                 Intent i = new Intent(MainActivity.this, NewsListView.class);
                 startActivity(i);
-                finish();
             }
         });
 
         euNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newNewsAsyncTask.execute();
+                if (!newNewsAsyncTask.getStatus().toString().equals("FINISHED")) {
+                    newNewsAsyncTask.execute();
+                }
                 Intent i = new Intent(MainActivity.this, NewsListView.class);
                 startActivity(i);
-                finish();
             }
         });
 
@@ -63,10 +71,11 @@ public class MainActivity extends AppCompatActivity {
         asNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newNewsAsyncTask.execute();
+                if (!newNewsAsyncTask.getStatus().toString().equals("FINISHED")) {
+                    newNewsAsyncTask.execute();
+                }
                 Intent i = new Intent(MainActivity.this, NewsListView.class);
                 startActivity(i);
-                finish();
             }
         });
 
@@ -76,18 +85,14 @@ public class MainActivity extends AppCompatActivity {
     //TODO: Replace this asynctask with a Loader
     public static class newsAsyncTask extends AsyncTask<Void, Void, ArrayList> {
 
-
         @Override
         protected ArrayList<News> doInBackground(Void... voids) {
             ArrayList<News> list = new ArrayList<>();
             try {
                 list = new FetchDataFromAPI().feedToAsyncTask();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
-
             return list;
         }
 
@@ -95,8 +100,28 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList a) {
             newsArrayListFromAsyncTask = a;
         }
-
     }
+
+    //US NEWS ASYNC TASK
+    public static class nytNewsAsyncTask extends AsyncTask<Void, Void, ArrayList> {
+
+        @Override
+        protected ArrayList<News> doInBackground(Void... voids) {
+            ArrayList<News> list = new ArrayList<>();
+            try {
+                list = new FetchDataFromAPI().feedToAsyncTaskUSNEWS();
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList a) {
+            usaNewsArrayListFromAsyncTask = a;
+        }
+    }
+
 
 
 }

@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewsListView" />
+        <activity android:name=".NewsListView"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".DetailedNewsContent"></activity>
     </application>
 

@@ -16,27 +16,32 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static neu.droid.guy.newsapp.MainActivity.query_URL_API;
+
 
 public class FetchDataFromAPI extends ArrayList<News> {
 
-    public static String query_URL_API = "http://content.guardianapis.com/uk-news?api-key=test&show-fields=all";
+
     public static String json = null;
     private static URL url_to_hit = null;
 
 
-    public void FetchDataFromAPI() {
-    }
-
     public ArrayList<News> feedToAsyncTask() throws IOException, JSONException {
+//        Log.e("query_URL_API", query_URL_API);
         url_to_hit = convertStringToURL(query_URL_API);
         String json = make_api_call(url_to_hit);
-        return parseAPIResponse(json);
+        return parseAPIResponse_GUARDIAN(json);
+    }
+
+    public ArrayList<News> feedToAsyncTaskUSNEWS() throws IOException, JSONException {
+//        Log.e("query_URL_API", query_URL_API);
+        url_to_hit = convertStringToURL(query_URL_API);
+        String json = make_api_call(url_to_hit);
+        return parseAPIResponse_NYT(json);
     }
 
     //STEP 1: Convert String to URL
-
     private static URL convertStringToURL(String url) {
-//        Log.e("convertStringToURL","INSIDE convertStringToURL");
         try {
             url_to_hit = new URL(url);
         } catch (MalformedURLException e) {
@@ -81,7 +86,6 @@ public class FetchDataFromAPI extends ArrayList<News> {
         BufferedReader reader = new BufferedReader(streamReader);
         StringBuilder sb = new StringBuilder();
 
-
         String line = reader.readLine();
         while (line != null) {
             sb.append(line);
@@ -91,7 +95,9 @@ public class FetchDataFromAPI extends ArrayList<News> {
     }//End of readUsingBufferedStream
 
 
-    public static ArrayList<News> parseAPIResponse(String res) throws JSONException {
+    //PARSE API RESPONSE
+    //In This Case, Response from GUARDIAN NEWS
+    public static ArrayList<News> parseAPIResponse_GUARDIAN(String res) throws JSONException {
         JSONObject mainObject = null;
         URL imageString = null;
         Bitmap thumbnail = null;
@@ -122,23 +128,16 @@ public class FetchDataFromAPI extends ArrayList<News> {
 
             for (int i = 0; i < parsedArrayResultsFromAPI.length(); i++) {
 
-
                 JSONObject fields = arrayOfJSONObject[i].getJSONObject("fields");
-
-                //Extract data by iterating on that JSON Array
 
                 //The title of the news
                 String titleOfNews = arrayOfJSONObject[i].getString("webTitle");
-//                Log.e("TITLE", titleOfNews);
-
 
                 //Set the content Snippet
                 String newsSnippet = fields.getString("trailText");
 
                 //Set the main Content
                 String mainContent = fields.getString("bodyText");
-//                Log.e("MAIN_CONTENT", mainContent);
-
 
                 try {
                     imageString = new URL(fields.getString("thumbnail"));
@@ -162,13 +161,36 @@ public class FetchDataFromAPI extends ArrayList<News> {
                     e.printStackTrace();
                 }
 
-
                 newsArrayList.add(new News(titleOfNews, newsSnippet, thumbnail, mainContent));
             }
         }
 
         return newsArrayList;
-    }//End of parseAPIResponse
+    }//End of parseAPIResponse GUARDIAN
+
+
+    //Parse Response for New York Times
+    public static ArrayList<News> parseAPIResponse_NYT(String res) throws JSONException {
+
+        ArrayList<News> newsArrayList = new ArrayList();
+        Bitmap bmp = null;
+        JSONObject mainResponse = new JSONObject(res);
+        JSONArray parsedResult = mainResponse.getJSONArray("results");
+        JSONObject[] eachRes = new JSONObject[parsedResult.length()];
+
+        for(int i=0; i< parsedResult.length(); i++){
+            eachRes[i] = parsedResult.getJSONObject(i);
+        }
+
+        for (int i=0; i< parsedResult.length(); i++){
+            String titleOfNews = eachRes[i].getString("title");
+            String newsSnippet = eachRes[i].getString("abstract");
+
+            newsArrayList.add(new News(titleOfNews, newsSnippet, bmp, "mainContent"));
+        }
+
+        return newsArrayList;
+    }
 
 }//End of class
 
