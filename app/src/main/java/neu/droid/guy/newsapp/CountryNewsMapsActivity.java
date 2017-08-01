@@ -20,15 +20,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import static android.support.design.widget.Snackbar.make;
-
 public class CountryNewsMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private MarkerOptions mCountryNameMarker;
     private String newsPaperName;
-    private String mCountryName = "United States";
+    private String mCountryName = null;
     private Snackbar showNewsPaper = null;
+    public static String query_URL_API = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +85,7 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
                     List<Address> jsonAddress = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
                     if (jsonAddress.size() > 0) {
 
+//                        Toast.makeText(CountryNewsMapsActivity.this,String.valueOf(jsonAddress.get(0)),Toast.LENGTH_LONG).show();
                         /**Get the country name*/
                         mCountryName = jsonAddress.get(0).getCountryName();
 
@@ -98,11 +98,10 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
                         /** Add a marker on click*/
                         mMap.addMarker(mCountryNameMarker).showInfoWindow();
                     } else {
-                        make(getWindow().getDecorView(),
-                                "Oops, that's embarrassing. Please try again ",
+                        Snackbar.make(getWindow().getDecorView(),
+                                "Oops, the newspaper got wet here! Sorry",
                                 Snackbar.LENGTH_SHORT).show();
-                        mCountryName = "United States";
-                        addTitleToMarker();
+//                        addTitleToMarker();
                     }
 
                 } catch (IOException e) {
@@ -118,28 +117,34 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
         int val = 0;
         switch (mCountryName) {
             case "United States":
-                newsPaperName = "Read The New York Times";
+                query_URL_API=null;
+                newsPaperName = "Read New York Times";
                 break;
 
             case "United Kingdom":
+                query_URL_API = "http://content.guardianapis.com/uk-news?api-key=test&show-fields=all";
                 newsPaperName = "Read The Guardian";
                 break;
 
             case "Canada":
+                query_URL_API=null;
                 newsPaperName = "Read I don't know for now";
                 break;
 
             case "Germany":
+                query_URL_API=null;
                 newsPaperName = "Read The Bild";
                 break;
 
 
             case "France":
                 newsPaperName = "Read Lu bla blu le ble blu";
+                query_URL_API=null;
                 break;
 
             case "India":
                 newsPaperName = "Read Hindustan Times";
+                query_URL_API=null;
                 break;
 
             default:
@@ -148,7 +153,7 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
                 break;
         }
 
-        showNewsPaper = Snackbar.make(getWindow().getDecorView(), newsPaperName, Snackbar.LENGTH_INDEFINITE);
+        showNewsPaper = Snackbar.make(findViewById(android.R.id.content), newsPaperName, Snackbar.LENGTH_INDEFINITE);
         /**Show snackbar whenever user selects one of the countries which we support*/
         if (val != -1) {
             showNewsPaper.show();
@@ -159,6 +164,7 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(CountryNewsMapsActivity.this,NewsListView.class);
+                i.putExtra("URL_TO_HIT",query_URL_API);
                 startActivity(i);
                 finish();
             }

@@ -1,9 +1,14 @@
 package neu.droid.guy.newsapp;
 
+import android.content.AsyncTaskLoader;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -11,43 +16,56 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import org.json.JSONException;
+
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 
-import static neu.droid.guy.newsapp.MainActivity.newsArrayListFromAsyncTask;
 
-public class NewsListView extends AppCompatActivity {
+public class NewsListView extends AppCompatActivity implements LoaderManager.LoaderCallbacks {
     public ProgressBar pBar;
     public ListView lv;
     public Button moreB;
+    public static String query_URL_API;
+    private static ArrayList<News> mNewsArrayListFromAsyncTask;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_list_view);
-//        Log.e("SIMPLE_NAME", NewsListView.class.getSimpleName());
 
         pBar = (ProgressBar) findViewById(R.id.progressBarToBeHidden);
         lv = (ListView) findViewById(R.id.list);
         moreB = (Button) findViewById(R.id.moreButton);
 
-//        new trackAsyncTask().execute();
-//        new trackAsyncTaskUSNEWS().execute();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle.getString("URL_TO_HIT") != null) {
+            query_URL_API = bundle.getString("URL_TO_HIT");
+            getSupportLoaderManager().initLoader(0, null, this);
+        }
+
 
     }// End of onCreate()
 
 
-    public void setAdapterOnAsyncTaskComplete() {
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(this, CountryNewsMapsActivity.class);
+        startActivity(i);
+        finish();
+    }
 
-        //Hide the progress bar
+    public void setAdapterOnLoaderComplete() {
+
+        /*Hide the progress bar*/
         pBar.setVisibility(View.GONE);
 
-        //Set the adapter to the ListView here
-        //Make the Relative Layout Visible
+        /**Set the adapter to the ListView here*/
         lv.setVisibility(View.VISIBLE);
-//        moreB.setVisibility(View.VISIBLE);
-        final NewsArrayAdapter adapter = new NewsArrayAdapter(NewsListView.this, newsArrayListFromAsyncTask);
-//        final NewsArrayAdapter adapter = new NewsArrayAdapter(NewsListView.this, usaNewsArrayListFromAsyncTask);
+
+        final NewsArrayAdapter adapter = new NewsArrayAdapter(NewsListView.this, mNewsArrayListFromAsyncTask);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -97,55 +115,65 @@ public class NewsListView extends AppCompatActivity {
         });
     }
 
+
+    /**
+     * Implement Loader and make network call here
+     */
     @Override
-    public void onBackPressed(){
-        Intent i = new Intent(this,CountryNewsMapsActivity.class);
-        startActivity(i);
-        finish();
+    public Loader onCreateLoader(int id, Bundle args) {
+        Log.e("INSIDE_on create loader","on create loader");
+//        new NewsListAsyncLoader(this).forceLoad();
+        new NewsListAsyncLoader(this).onStartLoading();
+        return null;
     }
 
-//    public class trackAsyncTask extends AsyncTask<Void, Void, Void> {
+    @Override
+    public void onLoadFinished(Loader loader, Object data) {
+//        setAdapterOnLoaderComplete();
+    }
 
-//        @Override
-//        protected Void doInBackground(Void... voids) {
-//            while (
-//                    ((newNewsAsyncTask.getStatus() == Status.RUNNING)
-//                            || (newNewsAsyncTask.getStatus() == Status.PENDING)
-//                            || (newsArrayListFromAsyncTask == null))
-//                    ) {
-//                DO NOTHING
-//            }
-//            return null;
-//        }
+    @Override
+    public void onLoaderReset(Loader loader) {
+    }
 
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            super.onPostExecute(aVoid);
-//            setAdapterOnAsyncTaskComplete();
-//        }
-//
-//    }//End of AsyncTask trackAsyncTask
 
-//    public class trackAsyncTaskUSNEWS extends AsyncTask<Void, Void, Void> {
+    public class NewsListAsyncLoader extends AsyncTaskLoader<Object> {
 
-//        @Override
-//        protected Void doInBackground(Void... voids) {
-//            while (
-//                    ((usNewsAsyncTask.getStatus() == Status.RUNNING)
-//                            || (usNewsAsyncTask.getStatus() == Status.PENDING)
-//                            || (usaNewsArrayListFromAsyncTask == null))
-//                    ) {
-                //DO NOTHING
-//            }
-//            return null;
-//        }
+        public NewsListAsyncLoader(Context context) {
+            super(context);
+        }
 
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            super.onPostExecute(aVoid);
-//            setAdapterOnAsyncTaskComplete();
-//        }
+        @Override
+        protected void onStartLoading() {
+            /** If the data is there, don't start again*/
+            if (mNewsArrayListFromAsyncTask != null) {
+                Log.e("INSIDE_onstartloading","DATA NULL directly deliver result");
+                deliverResult(mNewsArrayListFromAsyncTask);
+            } else {
+                /**Start the loader*/
+                Log.e("INSIDE_ forceload","data not null");
+                forceLoad();
+            }
+        }
 
-//    }//End of AsyncTaskUSNEWS trackAsyncTaskUSNEWS
+        @Override
+        public Object loadInBackground() {
+            try {
+                Log.e("INSIDE_LOAD_INBG","Load in bg");
+                mNewsArrayListFromAsyncTask = new FetchDataFromAPI().feedToAsyncTask();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
 
+
+        @Override
+        public void deliverResult(Object data) {
+            Log.e("INSIDE_DELIVER_RESULT","deliver result");
+            setAdapterOnLoaderComplete();
+        }
+    }
 }

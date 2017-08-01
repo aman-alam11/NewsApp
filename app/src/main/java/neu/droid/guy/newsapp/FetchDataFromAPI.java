@@ -16,7 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static neu.droid.guy.newsapp.MainActivity.query_URL_API;
+import static neu.droid.guy.newsapp.NewsListView.query_URL_API;
 
 
 public class FetchDataFromAPI extends ArrayList<News> {
@@ -27,18 +27,12 @@ public class FetchDataFromAPI extends ArrayList<News> {
 
 
     public ArrayList<News> feedToAsyncTask() throws IOException, JSONException {
-//        Log.e("query_URL_API", query_URL_API);
+//        Log.e("query_URL_API_FETCHDATA", query_URL_API);
         url_to_hit = convertStringToURL(query_URL_API);
         String json = make_api_call(url_to_hit);
         return parseAPIResponse_GUARDIAN(json);
     }
 
-    public ArrayList<News> feedToAsyncTaskUSNEWS() throws IOException, JSONException {
-//        Log.e("query_URL_API", query_URL_API);
-        url_to_hit = convertStringToURL(query_URL_API);
-        String json = make_api_call(url_to_hit);
-        return parseAPIResponse_NYT(json);
-    }
 
     //STEP 1: Convert String to URL
     private static URL convertStringToURL(String url) {
@@ -47,6 +41,7 @@ public class FetchDataFromAPI extends ArrayList<News> {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+//        Log.e("url_to_hit_API",url_to_hit.toString());
         return url_to_hit;
     }
 
@@ -70,7 +65,7 @@ public class FetchDataFromAPI extends ArrayList<News> {
             }
 
         } catch (Exception e) {
-            urlConnection.getResponseCode();
+//            Log.e("ERROR_RESPONSE_CODE",String.valueOf(urlConnection.getResponseCode()));
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
