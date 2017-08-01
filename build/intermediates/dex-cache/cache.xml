@@ -2,22 +2,40 @@
 <items version="2" >
 
     <item
-        is-multidex="true"
-        jar="C:\Users\Dark Horse\Documents\GitHub\NewsApp\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="C:\Users\Dark Horse\.android\build-cache\2bac71add202ca44b8744d512ce37fcbce6ceed9\output\jars\classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
-        sha1="9c4659aa776b34168b19697fd4e1ee59b7a8ff55">
-        <dex dex="C:\Users\Dark Horse\Documents\GitHub\NewsApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_b17940a39efc9ae66f81f5eeb4e26013fbcf02c2\classes.dex" />
+        sha1="fcae52a60bc07924d370b4d376116cd8f8581f54">
+        <dex dex="C:\Users\Dark Horse\Documents\GitHub\NewsApp\app\build\intermediates\pre-dexed\debug\classes_5c8b149436b6afc7c89f6ae0cde2060c6dbaf69b.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="C:\Users\Dark Horse\Documents\GitHub\NewsApp\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="C:\Users\Dark Horse\.android\build-cache\91c6fa535a8d6d6eaf1e2ab4f2f103b39f6220d4\output\jars\classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
-        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="C:\Users\Dark Horse\Documents\GitHub\NewsApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_a63f1a35ebdb437d494a983e75ddd98a1472c3ae\classes.dex" />
+        sha1="70ffe00aaf049893f59d1dad57bd82992faa38ef">
+        <dex dex="C:\Users\Dark Horse\Documents\GitHub\NewsApp\app\build\intermediates\pre-dexed\debug\classes_ebd1a60fd310ae8dd73b9a18661b39cc5166bfd1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Dark Horse\.android\build-cache\510469611d90bf904f9cf4522c2d4ade70211f0b\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="364364bf77b4a71afc5930fc3ae57b3f0eea637c">
+        <dex dex="C:\Users\Dark Horse\Documents\GitHub\NewsApp\app\build\intermediates\pre-dexed\debug\classes_e846cb5363fc6df32a2b032d99727ea636930073.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Dark Horse\.android\build-cache\07e1a07b302bbfd56008b127ee4a05c85813371a\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="2430e711762a749feb00b3d64858ca4768251b9d">
+        <dex dex="C:\Users\Dark Horse\Documents\GitHub\NewsApp\app\build\intermediates\pre-dexed\debug\classes_69f9ee0dd3fe40be23c603fff605949ca92b5b50.jar" />
     </item>
 
 </items>

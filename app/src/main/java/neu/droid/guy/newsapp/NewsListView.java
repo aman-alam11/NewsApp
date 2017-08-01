@@ -2,7 +2,6 @@ package neu.droid.guy.newsapp;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,10 +13,7 @@ import android.widget.ProgressBar;
 
 import java.io.ByteArrayOutputStream;
 
-import static neu.droid.guy.newsapp.MainActivity.newNewsAsyncTask;
 import static neu.droid.guy.newsapp.MainActivity.newsArrayListFromAsyncTask;
-import static neu.droid.guy.newsapp.MainActivity.usNewsAsyncTask;
-import static neu.droid.guy.newsapp.MainActivity.usaNewsArrayListFromAsyncTask;
 
 public class NewsListView extends AppCompatActivity {
     public ProgressBar pBar;
@@ -36,7 +32,7 @@ public class NewsListView extends AppCompatActivity {
         moreB = (Button) findViewById(R.id.moreButton);
 
 //        new trackAsyncTask().execute();
-        new trackAsyncTaskUSNEWS().execute();
+//        new trackAsyncTaskUSNEWS().execute();
 
     }// End of onCreate()
 
@@ -101,49 +97,55 @@ public class NewsListView extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed(){
+        Intent i = new Intent(this,CountryNewsMapsActivity.class);
+        startActivity(i);
+        finish();
+    }
 
-    public class trackAsyncTask extends AsyncTask<Void, Void, Void> {
+//    public class trackAsyncTask extends AsyncTask<Void, Void, Void> {
 
-        @Override
-        protected Void doInBackground(Void... voids) {
-            while (
-                    ((newNewsAsyncTask.getStatus() == Status.RUNNING)
-                            || (newNewsAsyncTask.getStatus() == Status.PENDING)
-                            || (newsArrayListFromAsyncTask == null))
-                    ) {
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//            while (
+//                    ((newNewsAsyncTask.getStatus() == Status.RUNNING)
+//                            || (newNewsAsyncTask.getStatus() == Status.PENDING)
+//                            || (newsArrayListFromAsyncTask == null))
+//                    ) {
+//                DO NOTHING
+//            }
+//            return null;
+//        }
+
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            setAdapterOnAsyncTaskComplete();
+//        }
+//
+//    }//End of AsyncTask trackAsyncTask
+
+//    public class trackAsyncTaskUSNEWS extends AsyncTask<Void, Void, Void> {
+
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//            while (
+//                    ((usNewsAsyncTask.getStatus() == Status.RUNNING)
+//                            || (usNewsAsyncTask.getStatus() == Status.PENDING)
+//                            || (usaNewsArrayListFromAsyncTask == null))
+//                    ) {
                 //DO NOTHING
-            }
-            return null;
-        }
+//            }
+//            return null;
+//        }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            setAdapterOnAsyncTaskComplete();
-        }
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            setAdapterOnAsyncTaskComplete();
+//        }
 
-    }//End of AsyncTask trackAsyncTask
-
-    public class trackAsyncTaskUSNEWS extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            while (
-                    ((usNewsAsyncTask.getStatus() == Status.RUNNING)
-                            || (usNewsAsyncTask.getStatus() == Status.PENDING)
-                            || (usaNewsArrayListFromAsyncTask == null))
-                    ) {
-                //DO NOTHING
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            setAdapterOnAsyncTaskComplete();
-        }
-
-    }//End of AsyncTaskUSNEWS trackAsyncTaskUSNEWS
+//    }//End of AsyncTaskUSNEWS trackAsyncTaskUSNEWS
 
 }

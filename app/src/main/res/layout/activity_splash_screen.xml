@@ -27,6 +27,7 @@
         android:layout_below="@id/headingSplashScreen"
         android:layout_centerHorizontal="true"
         android:alpha="0.9"
+        android:visibility="gone"
         android:background="@drawable/icon_newspaper"
         android:scaleType="fitXY"
         android:scaleX="1.4" />
