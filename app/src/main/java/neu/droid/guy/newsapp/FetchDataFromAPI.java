@@ -2,6 +2,7 @@ package neu.droid.guy.newsapp;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,27 +26,50 @@ public class FetchDataFromAPI extends ArrayList<News> {
     public static String json = null;
     private static URL url_to_hit = null;
 
+    /**
+     * Starting point for API CALLS
+     */
+    ArrayList<News> feedToAsyncTask() throws IOException, JSONException {
 
-    public ArrayList<News> feedToAsyncTask() throws IOException, JSONException {
-//        Log.e("query_URL_API_FETCHDATA", query_URL_API);
+        /**Convert String to URL*/
         url_to_hit = convertStringToURL(query_URL_API);
+
+        /**Make the actual API call*/
+        /**Helper function called from within to read as buffered reader*/
         String json = make_api_call(url_to_hit);
-        return parseAPIResponse_GUARDIAN(json);
+
+
+        //TODO: Remove if else later on and write a URI matcher kind of function
+        if (query_URL_API.contains("guardian")) {
+
+            /**
+             * PARSE RESPONSE FROM GUARDIAN API
+             * */
+            return parseAPIResponse_GUARDIAN(json);
+        } else if (query_URL_API.contains("nytimes")) {
+            /**
+             * PARSE RESPONSE FROM NYT API
+             * */
+            return parseAPIResponse_NYT(json);
+        } else return null;
     }
 
 
-    //STEP 1: Convert String to URL
+    /**
+     * STEP 1: Convert String to URL
+     */
     private static URL convertStringToURL(String url) {
         try {
             url_to_hit = new URL(url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-//        Log.e("url_to_hit_API",url_to_hit.toString());
         return url_to_hit;
     }
 
-    //STEP 2: Make the call
+    /**
+     * STEP 2: Make the call
+     */
     public static String make_api_call(URL url) throws IOException {
 
         HttpURLConnection urlConnection = null;
@@ -65,7 +89,7 @@ public class FetchDataFromAPI extends ArrayList<News> {
             }
 
         } catch (Exception e) {
-//            Log.e("ERROR_RESPONSE_CODE",String.valueOf(urlConnection.getResponseCode()));
+            Log.e("ERROR_RESPONSE_CODE", String.valueOf(urlConnection.getResponseCode()));
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
@@ -90,8 +114,9 @@ public class FetchDataFromAPI extends ArrayList<News> {
     }//End of readUsingBufferedStream
 
 
-    //PARSE API RESPONSE
-    //In This Case, Response from GUARDIAN NEWS
+    /**
+     * PARSE API RESPONSE: In This Case, Response from GUARDIAN NEWS
+     */
     public static ArrayList<News> parseAPIResponse_GUARDIAN(String res) throws JSONException {
         JSONObject mainObject = null;
         URL imageString = null;
@@ -125,13 +150,13 @@ public class FetchDataFromAPI extends ArrayList<News> {
 
                 JSONObject fields = arrayOfJSONObject[i].getJSONObject("fields");
 
-                //The title of the news
+                /**The title of the news*/
                 String titleOfNews = arrayOfJSONObject[i].getString("webTitle");
 
-                //Set the content Snippet
+                /**Set the content Snippet*/
                 String newsSnippet = fields.getString("trailText");
 
-                //Set the main Content
+                /**Set the main Content*/
                 String mainContent = fields.getString("bodyText");
 
                 try {
@@ -164,7 +189,9 @@ public class FetchDataFromAPI extends ArrayList<News> {
     }//End of parseAPIResponse GUARDIAN
 
 
-    //Parse Response for New York Times
+    /**
+     * PARSE API RESPONSE: In This Case, Response from New York Times
+     * */
     public static ArrayList<News> parseAPIResponse_NYT(String res) throws JSONException {
 
         ArrayList<News> newsArrayList = new ArrayList();
@@ -173,11 +200,11 @@ public class FetchDataFromAPI extends ArrayList<News> {
         JSONArray parsedResult = mainResponse.getJSONArray("results");
         JSONObject[] eachRes = new JSONObject[parsedResult.length()];
 
-        for(int i=0; i< parsedResult.length(); i++){
+        for (int i = 0; i < parsedResult.length(); i++) {
             eachRes[i] = parsedResult.getJSONObject(i);
         }
 
-        for (int i=0; i< parsedResult.length(); i++){
+        for (int i = 0; i < parsedResult.length(); i++) {
             String titleOfNews = eachRes[i].getString("title");
             String newsSnippet = eachRes[i].getString("abstract");
 

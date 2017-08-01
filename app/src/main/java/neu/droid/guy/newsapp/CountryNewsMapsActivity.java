@@ -117,7 +117,7 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
         int val = 0;
         switch (mCountryName) {
             case "United States":
-                query_URL_API=null;
+                query_URL_API="https://api.nytimes.com/svc/topstories/v2/home.json?api-key=";
                 newsPaperName = "Read New York Times";
                 break;
 

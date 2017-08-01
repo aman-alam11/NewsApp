@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -43,6 +42,11 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
         Bundle bundle = getIntent().getExtras();
         if (bundle.getString("URL_TO_HIT") != null) {
             query_URL_API = bundle.getString("URL_TO_HIT");
+            if (query_URL_API.contains("guardianapis")) {
+                setTitle("The Guardian");
+            } else if (query_URL_API.contains("nytimes")) {
+                setTitle("The New York Times");
+            }
             getSupportLoaderManager().initLoader(0, null, this);
         }
 
@@ -77,14 +81,15 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
                 //Transfer Image Through Intent
                 assert newsItem != null;
                 Bitmap bmap = newsItem.getImageResourceId();
-                ByteArrayOutputStream sendBmp = new ByteArrayOutputStream();
-                bmap.compress(Bitmap.CompressFormat.WEBP, 100, sendBmp);
-                byte[] byteArr = sendBmp.toByteArray();
-
-                showMainNewsIntent.putExtra("THUMBNAIL", byteArr);
-                showMainNewsIntent.putExtra("MAIN_CONTENT", newsItem.getMainNews());
-                showMainNewsIntent.putExtra("HEADLINES", newsItem.getTitle());
-                startActivity(showMainNewsIntent);
+                if (bmap != null) {
+                    ByteArrayOutputStream sendBmp = new ByteArrayOutputStream();
+                    bmap.compress(Bitmap.CompressFormat.WEBP, 100, sendBmp);
+                    byte[] byteArr = sendBmp.toByteArray();
+                    showMainNewsIntent.putExtra("THUMBNAIL", byteArr);
+                    showMainNewsIntent.putExtra("MAIN_CONTENT", newsItem.getMainNews());
+                    showMainNewsIntent.putExtra("HEADLINES", newsItem.getTitle());
+                    startActivity(showMainNewsIntent);
+                }
             }
 
         });
@@ -121,9 +126,9 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
      */
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        Log.e("INSIDE_on create loader","on create loader");
-//        new NewsListAsyncLoader(this).forceLoad();
-        new NewsListAsyncLoader(this).onStartLoading();
+//        Log.e("INSIDE_on create loader","on create loader");
+//        new NewsListAsyncLoader(this).onStartLoading();
+        new NewsListAsyncLoader(this).forceLoad();
         return null;
     }
 
@@ -147,11 +152,11 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
         protected void onStartLoading() {
             /** If the data is there, don't start again*/
             if (mNewsArrayListFromAsyncTask != null) {
-                Log.e("INSIDE_onstartloading","DATA NULL directly deliver result");
+//                Log.e("INSIDE_onstartloading","DATA NULL directly deliver result");
                 deliverResult(mNewsArrayListFromAsyncTask);
             } else {
                 /**Start the loader*/
-                Log.e("INSIDE_ forceload","data not null");
+//                Log.e("INSIDE_ forceload","data not null");
                 forceLoad();
             }
         }
@@ -159,7 +164,7 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
         @Override
         public Object loadInBackground() {
             try {
-                Log.e("INSIDE_LOAD_INBG","Load in bg");
+//                Log.e("INSIDE_LOAD_INBG","Load in bg");
                 mNewsArrayListFromAsyncTask = new FetchDataFromAPI().feedToAsyncTask();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -172,7 +177,7 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
 
         @Override
         public void deliverResult(Object data) {
-            Log.e("INSIDE_DELIVER_RESULT","deliver result");
+//            Log.e("INSIDE_DELIVER_RESULT","deliver result");
             setAdapterOnLoaderComplete();
         }
     }
