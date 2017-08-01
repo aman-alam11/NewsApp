@@ -61,6 +61,7 @@ public class NewsListView extends AppCompatActivity {
                 Intent showMainNewsIntent = new Intent(NewsListView.this, DetailedNewsContent.class);
 
                 //Transfer Image Through Intent
+                assert newsItem != null;
                 Bitmap bmap = newsItem.getImageResourceId();
                 ByteArrayOutputStream sendBmp = new ByteArrayOutputStream();
                 bmap.compress(Bitmap.CompressFormat.WEBP, 100, sendBmp);

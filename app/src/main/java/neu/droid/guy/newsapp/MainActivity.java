@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         usNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                query_URL_API="https://api.nytimes.com/svc/topstories/v2/home.json?&api-key=";
+                query_URL_API = "https://api.nytimes.com/svc/topstories/v2/home.json?&api-key=";
                 if (!usNewsAsyncTask.getStatus().toString().equals("FINISHED")) {
                     usNewsAsyncTask.execute();
                 }
@@ -121,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
             usaNewsArrayListFromAsyncTask = a;
         }
     }
-
 
 
 }
