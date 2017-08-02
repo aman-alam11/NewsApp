@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="neu.droid.guy.newsapp.DetailedNewsContent">
 
     <ScrollView
@@ -19,15 +21,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large" />
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                tools:text="Headline goes here" />
 
             <ImageView
                 android:id="@+id/thumbnailImageOnTop"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:scaleType="centerCrop" />
-
+                android:layout_height="600px"
+                android:scaleType="fitXY"
+                android:layout_margin="10dp" />
+            <!---->
+            <!---->
             <TextView
                 android:id="@+id/mainNewsText"
                 android:layout_width="match_parent"
@@ -35,15 +39,32 @@
                 android:fontFamily="sans-serif-condensed"
                 android:padding="10dp"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-                android:textColor="@color/colorAccent" />
-
-            <Button
-                android:id="@+id/moreContentButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="More on New York Times"
-                android:visibility="gone" />
+                android:textColor="@color/colorAccent"
+                tools:text="Main Article goes here." />
+            <!---->
+            <!---->
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="45dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/share"
+        app:backgroundTint="@color/colorPrimaryDark" />
+
+    <Button
+        android:id="@+id/moreContentButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end"
+        android:text="More on New York Times"
+        android:visibility="gone" />
+    <!---->
+</RelativeLayout>

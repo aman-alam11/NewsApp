@@ -8,9 +8,12 @@
         android:padding="10dp"
         android:id="@+id/textAboveMaps"
         android:layout_width="match_parent"
+        android:textStyle="bold"
         android:layout_height="wrap_content"
         android:background="#000"
         android:textColor="#FFF"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
         android:text="Click on the country to view its news. Right Now we support US and UK" />
 
     <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
