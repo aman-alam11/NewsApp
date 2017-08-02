@@ -9,7 +9,9 @@
         android:id="@+id/textAboveMaps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Click on the country to view its news. Right Now we support US, UK, Canada, Germany, France, India" />
+        android:background="#000"
+        android:textColor="#FFF"
+        android:text="Click on the country to view its news. Right Now we support US and UK" />
 
     <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/map"

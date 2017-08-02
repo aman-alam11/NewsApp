@@ -15,10 +15,10 @@
             android:orientation="vertical">
 
             <TextView
-                android:padding="10dp"
                 android:id="@+id/headlineOnTop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large" />
 
             <ImageView
@@ -26,16 +26,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
 
             <TextView
-                android:padding="10dp"
                 android:id="@+id/mainNewsText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="sans-serif-condensed"
+                android:padding="10dp"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
                 android:textColor="@color/colorAccent" />
+
+            <Button
+                android:id="@+id/moreContentButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="More on New York Times"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

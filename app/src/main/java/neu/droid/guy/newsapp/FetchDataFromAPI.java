@@ -51,7 +51,10 @@ public class FetchDataFromAPI extends ArrayList<News> {
              * PARSE RESPONSE FROM NYT API
              * */
             return parseAPIResponse_NYT(json);
-        } else return null;
+        } else {
+            Log.e("UNABLE TO HIT API", "Unable to hit any api");
+        }
+        return null;
     }
 
 
@@ -191,26 +194,73 @@ public class FetchDataFromAPI extends ArrayList<News> {
 
     /**
      * PARSE API RESPONSE: In This Case, Response from New York Times
-     * */
+     */
     public static ArrayList<News> parseAPIResponse_NYT(String res) throws JSONException {
 
-        ArrayList<News> newsArrayList = new ArrayList();
-        Bitmap bmp = null;
-        JSONObject mainResponse = new JSONObject(res);
-        JSONArray parsedResult = mainResponse.getJSONArray("results");
-        JSONObject[] eachRes = new JSONObject[parsedResult.length()];
+        ArrayList<News> newsArrayList = new ArrayList<>();
+        URL imageUrl = null;
+        try {
+            Bitmap thumbnail_NYT = null;
 
-        for (int i = 0; i < parsedResult.length(); i++) {
-            eachRes[i] = parsedResult.getJSONObject(i);
+            JSONObject mainResponse = new JSONObject(res);
+            JSONArray parsedResult = mainResponse.getJSONArray("results");
+            JSONObject[] eachRes = new JSONObject[parsedResult.length()];
+
+//            for (int i = 0; i < parsedResult.length(); i++) {
+//            Log.e("EACH_RES",eachRes[i].toString());
+//            }
+
+
+            for (int j = 0; j < parsedResult.length(); j++) {
+                eachRes[j] = parsedResult.getJSONObject(j);
+                String titleOfNews = eachRes[j].getString("title");
+                String newsSnippet = eachRes[j].getString("abstract");
+                if (eachRes[j].getJSONArray("multimedia").length() > 0) {
+                    JSONArray multimedia = eachRes[j].getJSONArray("multimedia");
+
+                    /**
+                     * Get the Array of JSON Objects containing multimedia info.
+                     * But we just need the first image from the first object as we need the smallest image
+                     * */
+
+                    JSONObject multimediaObject = multimedia.getJSONObject(1);
+                    String imageUrlString = multimediaObject.getString("url");
+                    try {
+                        imageUrl = new URL(imageUrlString);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.e("Image_URL", "Unable to convert URL String to URL");
+                    }
+
+                    //Make a network call and get the image as Bitmap
+                    HttpURLConnection urlConnection = (HttpURLConnection) imageUrl.openConnection();
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.connect();
+                    if (urlConnection.getResponseCode() == 200) {
+                        InputStream getImage_NYT = urlConnection.getInputStream();
+                        thumbnail_NYT = BitmapFactory.decodeStream(getImage_NYT);
+                        int width = (int)(thumbnail_NYT.getWidth() + 0.5f);
+                        int height = ( thumbnail_NYT.getHeight() * 2);
+                        thumbnail_NYT = Bitmap.createScaledBitmap(thumbnail_NYT,width,height,true);
+
+                    } else {
+                        //Add alternate image
+                        thumbnail_NYT = Bitmap.createBitmap(150, 300, Bitmap.Config.ARGB_8888);
+                        urlConnection.disconnect();
+                    }
+                } else {
+                    //Add alternate image
+                    thumbnail_NYT = Bitmap.createBitmap(150, 300, Bitmap.Config.ARGB_4444);
+                }
+
+                newsArrayList.add(new News(titleOfNews, newsSnippet, thumbnail_NYT, newsSnippet));
+            }
+
+//            Log.e("NEWS_ARRAY_LIST_NYT", newsArrayList.toString());
+        } catch (Exception e) {
+            Log.e("PARSE_NYT", "Parse NYT throws Exception" + e.toString());
+            e.printStackTrace();
         }
-
-        for (int i = 0; i < parsedResult.length(); i++) {
-            String titleOfNews = eachRes[i].getString("title");
-            String newsSnippet = eachRes[i].getString("abstract");
-
-            newsArrayList.add(new News(titleOfNews, newsSnippet, bmp, "mainContent"));
-        }
-
         return newsArrayList;
     }
 

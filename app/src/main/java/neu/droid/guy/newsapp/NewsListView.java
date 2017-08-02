@@ -27,7 +27,7 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
     public ListView lv;
     public Button moreB;
     public static String query_URL_API;
-    private static ArrayList<News> mNewsArrayListFromAsyncTask;
+    private ArrayList<News> mNewsArrayListFromAsyncTask;
 
 
     @Override
@@ -71,6 +71,7 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
 
         final NewsArrayAdapter adapter = new NewsArrayAdapter(NewsListView.this, mNewsArrayListFromAsyncTask);
         lv.setAdapter(adapter);
+
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -88,6 +89,11 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
                     showMainNewsIntent.putExtra("THUMBNAIL", byteArr);
                     showMainNewsIntent.putExtra("MAIN_CONTENT", newsItem.getMainNews());
                     showMainNewsIntent.putExtra("HEADLINES", newsItem.getTitle());
+                    String contentFrom = "newsPaperName";
+                    if (query_URL_API.contains("nytimes")) {
+                        contentFrom = "NYT";
+                    }
+                    showMainNewsIntent.putExtra("NYT_CONTENT", contentFrom);
                     startActivity(showMainNewsIntent);
                 }
             }
@@ -166,6 +172,7 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
             try {
 //                Log.e("INSIDE_LOAD_INBG","Load in bg");
                 mNewsArrayListFromAsyncTask = new FetchDataFromAPI().feedToAsyncTask();
+//                Log.e("mNewsArrayList", mNewsArrayListFromAsyncTask.toString());
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {

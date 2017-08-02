@@ -43,8 +43,6 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
@@ -83,9 +81,10 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
                 Geocoder geocoder = new Geocoder(CountryNewsMapsActivity.this, Locale.getDefault());
                 try {
                     List<Address> jsonAddress = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+//                    Log.e("JSONADDRESS", jsonAddress.toString());
                     if (jsonAddress.size() > 0) {
 
-//                        Toast.makeText(CountryNewsMapsActivity.this,String.valueOf(jsonAddress.get(0)),Toast.LENGTH_LONG).show();
+//                        Toast.makeText(CountryNewsMapsActivity.this, String.valueOf(jsonAddress.get(0)), Toast.LENGTH_LONG).show();
                         /**Get the country name*/
                         mCountryName = jsonAddress.get(0).getCountryName();
 
@@ -105,6 +104,7 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
                     }
 
                 } catch (IOException e) {
+//                    Log.e("IOEXCEPTION", e.toString());
                     e.printStackTrace();
                 }
             }
@@ -117,7 +117,7 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
         int val = 0;
         switch (mCountryName) {
             case "United States":
-                query_URL_API="https://api.nytimes.com/svc/topstories/v2/home.json?api-key=";
+                query_URL_API = "https://api.nytimes.com/svc/topstories/v2/home.json?api-key=";
                 newsPaperName = "Read New York Times";
                 break;
 
@@ -127,24 +127,24 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
                 break;
 
             case "Canada":
-                query_URL_API=null;
+                query_URL_API = null;
                 newsPaperName = "Read I don't know for now";
                 break;
 
             case "Germany":
-                query_URL_API=null;
+                query_URL_API = null;
                 newsPaperName = "Read The Bild";
                 break;
 
 
             case "France":
                 newsPaperName = "Read Lu bla blu le ble blu";
-                query_URL_API=null;
+                query_URL_API = null;
                 break;
 
             case "India":
                 newsPaperName = "Read Hindustan Times";
-                query_URL_API=null;
+                query_URL_API = null;
                 break;
 
             default:
@@ -163,8 +163,8 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
         showNewsPaper.setAction("READ", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(CountryNewsMapsActivity.this,NewsListView.class);
-                i.putExtra("URL_TO_HIT",query_URL_API);
+                Intent i = new Intent(CountryNewsMapsActivity.this, NewsListView.class);
+                i.putExtra("URL_TO_HIT", query_URL_API);
                 startActivity(i);
                 finish();
             }
