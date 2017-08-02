@@ -9,8 +9,4 @@ Countries Supported for Now and I plan to pull data from :
 4. Canada (Not Finalized Yet)
 
 
-Plans: Right Now the app is in very initial stage. It opens up with 4 buttons each 
-with a country name and leading to the data provided by that API. However this is 
-just the initial setup. I plan to replace it with a scrollable tab and plan to expand it
-to different countries (France and Germany). I haven't included them currently because of 
-the language issues as their leading newspapers will be in French and Deutsch.
+Plans: Right now the app is pulling data from NYT and Guardian only. Plans and suggestions requested to pull data from newspapers of different countries (France, Germany, India, Canada etc).
