@@ -14,7 +14,7 @@
         android:textColor="#FFF"
         android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-        android:text="Click on the country to view its news. Right Now we support US and UK" />
+        android:text="@string/headingMapsView" />
 
     <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/map"

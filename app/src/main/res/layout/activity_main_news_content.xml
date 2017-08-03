@@ -30,8 +30,8 @@
                 android:layout_height="600px"
                 android:scaleType="fitXY"
                 android:layout_margin="10dp" />
-            <!---->
-            <!---->
+
+
             <TextView
                 android:id="@+id/mainNewsText"
                 android:layout_width="match_parent"
@@ -41,13 +41,14 @@
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
                 android:textColor="@color/colorAccent"
                 tools:text="Main Article goes here." />
-            <!---->
-            <!---->
+
+
         </LinearLayout>
     </ScrollView>
 
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/shareNewsFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -66,5 +67,5 @@
         android:layout_gravity="end"
         android:text="More on New York Times"
         android:visibility="gone" />
-    <!---->
+
 </RelativeLayout>

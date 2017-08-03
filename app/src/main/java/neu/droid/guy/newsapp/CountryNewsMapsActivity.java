@@ -28,6 +28,7 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
     private String mCountryName = null;
     private Snackbar showNewsPaper = null;
     public static String query_URL_API = null;
+    public static int count=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,6 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
         /** Obtain the SupportMapFragment and get notified when the map is ready to be used.*/
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
     }
 
 
@@ -50,6 +50,14 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        float zoom = 4;
+        double Latitude = 53.400088;
+        double Longitude = 16.258973;
+        LatLng latLng = new LatLng(Latitude, Longitude);
+        if (count < 1) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+            count++;
+        }
         mCountryNameMarker = new MarkerOptions();
 
         /**Add an icon to the marker*/
@@ -116,40 +124,54 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
     private void addTitleToMarker() {
         int val = 0;
         switch (mCountryName) {
-            case "United States":
-                query_URL_API = "https://api.nytimes.com/svc/topstories/v2/home.json?api-key=";
-                newsPaperName = "Read New York Times";
-                break;
+//            case "United States":
+//                query_URL_API = "https://api.nytimes.com/svc/topstories/v2/home.json?api-key=";
+//                newsPaperName = "Read New York Times";
+//                break;
+
+
+            //Planned Toronto Star
+//            case "Canada":
+//                query_URL_API = "http://content.guardianapis.com/search?q=canada&api-key=test&show-fields=all";
+//                newsPaperName = "Canadian Content";
+//                break;
+
+
+            //Planned De Ziet
+//            case "Germany":
+//                query_URL_API = "http://content.guardianapis.com/search?q=germany&api-key=test&show-fields=all";
+//                newsPaperName = "Read The Bild";
+//                newsPaperName = "German news in English";
+//                break;
+
+
+            //Planned Le Monde
+//            case "France":
+//                newsPaperName = "Read French News in English";
+//                query_URL_API = "http://content.guardianapis.com/search?q=france&api-key=test&show-fields=all";
+//                break;
+
+            //Planned TOI
+//            case "India":
+//                newsPaperName = "Read Indian News";
+//                query_URL_API = "http://content.guardianapis.com/search?q=india&api-key=test&show-fields=all";
+//                break;
+
+//            case "Australia":
+//                newsPaperName = "Read The Guardian Australia Edition";
+//                query_URL_API = "http://content.guardianapis.com/search?q=australia&api-key=test&show-fields=all";
+//                break;
 
             case "United Kingdom":
                 query_URL_API = "http://content.guardianapis.com/uk-news?api-key=test&show-fields=all";
                 newsPaperName = "Read The Guardian";
                 break;
 
-            case "Canada":
-                query_URL_API = null;
-                newsPaperName = "Read I don't know for now";
-                break;
-
-            case "Germany":
-                query_URL_API = null;
-                newsPaperName = "Read The Bild";
-                break;
-
-
-            case "France":
-                newsPaperName = "Read Lu bla blu le ble blu";
-                query_URL_API = null;
-                break;
-
-            case "India":
-                newsPaperName = "Read Hindustan Times";
-                query_URL_API = null;
-                break;
-
             default:
-                newsPaperName = "Sorry, We do not support this country for now";
-                val = -1;
+//                newsPaperName = "Sorry, We do not support this country for now";
+                newsPaperName = "Read " + mCountryName + "'s news in English";
+                query_URL_API = "http://content.guardianapis.com/search?q=" + mCountryName + "&api-key=test&show-fields=all";
+//                val = -1;
                 break;
         }
 
@@ -165,6 +187,7 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
             public void onClick(View view) {
                 Intent i = new Intent(CountryNewsMapsActivity.this, NewsListView.class);
                 i.putExtra("URL_TO_HIT", query_URL_API);
+                i.putExtra("COUNTRY_NAME", mCountryName);
                 startActivity(i);
                 finish();
             }

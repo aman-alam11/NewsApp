@@ -31,4 +31,17 @@
         android:text="More"
         android:visibility="gone" />
 
+    <!--Empty View-->
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="Oops! This is embarrassing. Please try again"
+        android:textAlignment="gravity"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+        android:textColor="@color/colorAccent" />
+
 </RelativeLayout>

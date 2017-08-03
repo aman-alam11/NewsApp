@@ -9,6 +9,7 @@ public class News {
     private String mContentSnippet;
     private String mMainNews;
     private Bitmap mImageId;
+    private String mNewsUrl;
 
     public News(String title, String contentSnippet, Bitmap imageId, String mainNews) {
         mImageId = imageId;
@@ -17,6 +18,18 @@ public class News {
         mMainNews = mainNews;
     }
 
+    public News(String title, String contentSnippet, Bitmap imageId, String mainNews, String newsUrl) {
+        mImageId = imageId;
+        mTitle = title;
+        mContentSnippet = contentSnippet;
+        mMainNews = mainNews;
+        mNewsUrl = newsUrl;
+    }
+
+
+    public String getNewsUrl(){
+        return mNewsUrl;
+    }
 
     public String getTitle(){
         return mTitle;

@@ -9,7 +9,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -38,15 +37,18 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
         pBar = (ProgressBar) findViewById(R.id.progressBarToBeHidden);
         lv = (ListView) findViewById(R.id.list);
         moreB = (Button) findViewById(R.id.moreButton);
+//        TextView emptyView = (TextView) findViewById(R.id.emptyView);
+//        lv.setEmptyView(emptyView);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle.getString("URL_TO_HIT") != null) {
             query_URL_API = bundle.getString("URL_TO_HIT");
             if (query_URL_API.contains("guardianapis")) {
-                setTitle("The Guardian");
-            } else if (query_URL_API.contains("nytimes")) {
-                setTitle("The New York Times");
+                setTitle(bundle.getString("COUNTRY_NAME"));
             }
+//            else if (query_URL_API.contains("nytimes")) {
+//                setTitle("NYT in short");
+//            }
             getSupportLoaderManager().initLoader(0, null, this);
         }
 
@@ -63,67 +65,69 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
 
     public void setAdapterOnLoaderComplete() {
 
-        /*Hide the progress bar*/
-        pBar.setVisibility(View.GONE);
+        if (mNewsArrayListFromAsyncTask != null) {
+            /**Hide the progress bar*/
+            pBar.setVisibility(View.GONE);
 
-        /**Set the adapter to the ListView here*/
-        lv.setVisibility(View.VISIBLE);
+            /**Set the adapter to the ListView here*/
+            lv.setVisibility(View.VISIBLE);
+            final NewsArrayAdapter adapter = new NewsArrayAdapter(NewsListView.this, mNewsArrayListFromAsyncTask);
+            lv.setAdapter(adapter);
 
-        final NewsArrayAdapter adapter = new NewsArrayAdapter(NewsListView.this, mNewsArrayListFromAsyncTask);
-        lv.setAdapter(adapter);
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    News newsItem = adapter.getItem(i);
+                    Intent showMainNewsIntent = new Intent(NewsListView.this, DetailedNewsContent.class);
 
-                News newsItem = adapter.getItem(i);
-                Intent showMainNewsIntent = new Intent(NewsListView.this, DetailedNewsContent.class);
-
-                //Transfer Image Through Intent
-                assert newsItem != null;
-                Bitmap bmap = newsItem.getImageResourceId();
-                if (bmap != null) {
-                    ByteArrayOutputStream sendBmp = new ByteArrayOutputStream();
-                    bmap.compress(Bitmap.CompressFormat.WEBP, 100, sendBmp);
-                    byte[] byteArr = sendBmp.toByteArray();
-                    showMainNewsIntent.putExtra("THUMBNAIL", byteArr);
-                    showMainNewsIntent.putExtra("MAIN_CONTENT", newsItem.getMainNews());
-                    showMainNewsIntent.putExtra("HEADLINES", newsItem.getTitle());
-                    String contentFrom = "newsPaperName";
-                    if (query_URL_API.contains("nytimes")) {
-                        contentFrom = "NYT";
-                    }
-                    showMainNewsIntent.putExtra("NYT_CONTENT", contentFrom);
-                    startActivity(showMainNewsIntent);
-                }
-            }
-
-        });
-
-
-        lv.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                int preLast = 0;
-
-                switch (absListView.getId()) {
-                    case R.id.list:
-
-                        final int lastItem = firstVisibleItem + visibleItemCount;
-
-                        if (lastItem == totalItemCount) {
-                            if (preLast != lastItem) {
-                                moreB.setVisibility(View.VISIBLE);
-                                preLast = lastItem;
-                            }
+                    //Transfer Image Through Intent
+                    assert newsItem != null;
+                    Bitmap bmap = newsItem.getImageResourceId();
+                    if (bmap != null) {
+                        ByteArrayOutputStream sendBmp = new ByteArrayOutputStream();
+                        bmap.compress(Bitmap.CompressFormat.WEBP, 100, sendBmp);
+                        byte[] byteArr = sendBmp.toByteArray();
+                        showMainNewsIntent.putExtra("THUMBNAIL", byteArr);
+                        showMainNewsIntent.putExtra("NEWS_URL", newsItem.getNewsUrl());
+                        showMainNewsIntent.putExtra("MAIN_CONTENT", newsItem.getMainNews());
+                        showMainNewsIntent.putExtra("HEADLINES", newsItem.getTitle());
+                        String contentFrom = "newsPaperName";
+                        if (query_URL_API.contains("nytimes")) {
+                            contentFrom = "NYT";
                         }
+                        showMainNewsIntent.putExtra("NYT_CONTENT", contentFrom);
+                        startActivity(showMainNewsIntent);
+                    }
                 }
-            }
-        });
+
+            });
+
+
+//        lv.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(AbsListView absListView, int i) {
+//            }
+
+//            @Override
+//            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//                int preLast = 0;
+
+//                switch (absListView.getId()) {
+//                    case R.id.list:
+
+//                        final int lastItem = firstVisibleItem + visibleItemCount;
+
+//                        if (lastItem == totalItemCount) {
+//                            if (preLast != lastItem) {
+//                                moreB.setVisibility(View.VISIBLE);
+//                                preLast = lastItem;
+//                            }
+//                        }
+//                }
+//            }
+//        });
+        }
     }
 
 
@@ -173,9 +177,7 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
 //                Log.e("INSIDE_LOAD_INBG","Load in bg");
                 mNewsArrayListFromAsyncTask = new FetchDataFromAPI().feedToAsyncTask();
 //                Log.e("mNewsArrayList", mNewsArrayListFromAsyncTask.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
             return null;

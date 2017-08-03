@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">NewsApp</string>
+    <string name="app_name">News Mapp</string>
 
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_country_news_maps">Map</string>
+    <string name="headingMapsView">Click on the country to view its news. Can you find the country you are looking for on the Map?</string>
 </resources>

@@ -137,6 +137,7 @@ public class FetchDataFromAPI extends ArrayList<News> {
         JSONArray parsedArrayResultsFromAPI = response.getJSONArray("results");
         JSONObject[] arrayOfJSONObject = new JSONObject[parsedArrayResultsFromAPI.length()];
         JSONObject[] arrayOfShowFields = new JSONObject[arrayOfJSONObject.length];
+        String[] arrayOfWebUrls = new String[arrayOfJSONObject.length];
 
         for (int i = 0; i < parsedArrayResultsFromAPI.length(); i++) {
             // Take a empty JSONArray and assign each Object and
@@ -144,6 +145,7 @@ public class FetchDataFromAPI extends ArrayList<News> {
             // elements of each JSON object
             arrayOfJSONObject[i] = parsedArrayResultsFromAPI.getJSONObject(i);
             arrayOfShowFields[i] = arrayOfJSONObject[i].getJSONObject("fields");
+            arrayOfWebUrls[i] = arrayOfJSONObject[i].getString("webUrl");
         }
 
 
@@ -184,7 +186,7 @@ public class FetchDataFromAPI extends ArrayList<News> {
                     e.printStackTrace();
                 }
 
-                newsArrayList.add(new News(titleOfNews, newsSnippet, thumbnail, mainContent));
+                newsArrayList.add(new News(titleOfNews, newsSnippet, thumbnail, mainContent,arrayOfWebUrls[i]));
             }
         }
 
@@ -205,10 +207,6 @@ public class FetchDataFromAPI extends ArrayList<News> {
             JSONObject mainResponse = new JSONObject(res);
             JSONArray parsedResult = mainResponse.getJSONArray("results");
             JSONObject[] eachRes = new JSONObject[parsedResult.length()];
-
-//            for (int i = 0; i < parsedResult.length(); i++) {
-//            Log.e("EACH_RES",eachRes[i].toString());
-//            }
 
 
             for (int j = 0; j < parsedResult.length(); j++) {
