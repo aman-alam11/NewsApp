@@ -24,11 +24,10 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
 
     private GoogleMap mMap;
     private MarkerOptions mCountryNameMarker;
-    private String newsPaperName;
     private String mCountryName = null;
     private Snackbar showNewsPaper = null;
     public static String query_URL_API = null;
-    public static int count=0;
+//    public static int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +49,14 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        float zoom = 4;
+        float zoom = (float) 3.5;
         double Latitude = 53.400088;
         double Longitude = 16.258973;
         LatLng latLng = new LatLng(Latitude, Longitude);
-        if (count < 1) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-            count++;
-        }
+//        if (count < 1) {
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+//            count++;
+//        }
         mCountryNameMarker = new MarkerOptions();
 
         /**Add an icon to the marker*/
@@ -123,6 +122,7 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
 
     private void addTitleToMarker() {
         int val = 0;
+        String newsPaperName;
         switch (mCountryName) {
 //            case "United States":
 //                query_URL_API = "https://api.nytimes.com/svc/topstories/v2/home.json?api-key=";

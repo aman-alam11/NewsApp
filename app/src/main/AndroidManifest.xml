@@ -3,6 +3,9 @@
     package="neu.droid.guy.newsapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!--Camera is crashing if we dont ask for permissions request-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
