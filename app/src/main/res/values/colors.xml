@@ -3,6 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#ff4081</color>
+    <color name="grey">#616161</color>
+    <color name="cyan">#00BCD4</color>
+    <color name="light_blue">#4FC3F7</color>
+    <color name="indigo">#3F51B5</color>
+    <color name="light_green">#DCE775</color>
+    <color name="blue_grey">#263238</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>

@@ -2,7 +2,9 @@ package neu.droid.guy.newsapp;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -91,7 +93,8 @@ public class FetchDataFromAPI extends ArrayList<News> {
                 json = readUsingBufferedStream(stream);
             }
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             Log.e("ERROR_RESPONSE_CODE", String.valueOf(urlConnection.getResponseCode()));
             if (urlConnection != null) {
                 urlConnection.disconnect();

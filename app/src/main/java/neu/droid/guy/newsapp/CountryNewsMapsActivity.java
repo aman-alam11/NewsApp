@@ -1,8 +1,11 @@
 package neu.droid.guy.newsapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
@@ -48,6 +51,11 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+        if (!isNetworkAvailable()) {
+            Snackbar.make(findViewById(android.R.id.content),
+                    "Internet Not Available", Snackbar.LENGTH_LONG).show();
+        }
         mMap = googleMap;
         float zoom = (float) 3.5;
         double Latitude = 53.400088;
@@ -194,6 +202,13 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
         });
 
         mCountryNameMarker.snippet(newsPaperName).visible(true);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 }

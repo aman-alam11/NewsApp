@@ -1,10 +1,14 @@
 package neu.droid.guy.newsapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +27,11 @@ public class DetailedNewsContent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_news_content);
+
+        if (!isNetworkAvailable()) {
+            Snackbar.make(findViewById(android.R.id.content),
+                    "Internet Not Available", Snackbar.LENGTH_LONG).show();
+        }
 
         Bundle bundle = getIntent().getExtras();
         String setTitleOfActivity = bundle.getString("HEADLINES");
@@ -100,5 +109,12 @@ public class DetailedNewsContent extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

@@ -6,6 +6,7 @@
     <!--Camera is crashing if we dont ask for permissions request-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -28,6 +29,7 @@
         <activity
             android:name=".DetailedNewsContent"
             android:theme="@style/Base.Theme.AppCompat" />
+        <activity android:name=".Tutorial" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

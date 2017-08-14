@@ -4,7 +4,10 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +36,12 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_list_view);
+
+        if (!isNetworkAvailable()) {
+            Snackbar.make(findViewById(android.R.id.content),
+                    "Internet Not Available", Snackbar.LENGTH_LONG).show();
+        }
+
 
         pBar = (ProgressBar) findViewById(R.id.progressBarToBeHidden);
         lv = (ListView) findViewById(R.id.list);
@@ -137,8 +146,8 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
 //        Log.e("INSIDE_on create loader","on create loader");
-//        new NewsListAsyncLoader(this).onStartLoading();
-        new NewsListAsyncLoader(this).forceLoad();
+        new NewsListAsyncLoader(this).onStartLoading();
+//        new NewsListAsyncLoader(this).forceLoad();
         return null;
     }
 
@@ -190,4 +199,12 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
             setAdapterOnLoaderComplete();
         }
     }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 }
