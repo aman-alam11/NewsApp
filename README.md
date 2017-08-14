@@ -12,5 +12,5 @@ Countries Supported for Now and I plan to pull data from :
 
 Open to suggestions as well.
 
-
-Plans: Right now the app is pulling data from NYT and Guardian only. Plans and suggestions requested to pull data from newspapers of different countries (France, Germany, India, Canada etc).
+Download the app @
+https://play.google.com/store/apps/details?id=neu.droid.guy.newsapp
