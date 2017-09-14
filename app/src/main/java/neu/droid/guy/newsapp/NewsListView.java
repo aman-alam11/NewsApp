@@ -145,9 +145,7 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
      */
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-//        Log.e("INSIDE_on create loader","on create loader");
         new NewsListAsyncLoader(this).onStartLoading();
-//        new NewsListAsyncLoader(this).forceLoad();
         return null;
     }
 
@@ -175,7 +173,6 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
                 deliverResult(mNewsArrayListFromAsyncTask);
             } else {
                 /**Start the loader*/
-//                Log.e("INSIDE_ forceload","data not null");
                 forceLoad();
             }
         }
@@ -183,9 +180,7 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
         @Override
         public Object loadInBackground() {
             try {
-//                Log.e("INSIDE_LOAD_INBG","Load in bg");
                 mNewsArrayListFromAsyncTask = new FetchDataFromAPI().feedToAsyncTask();
-//                Log.e("mNewsArrayList", mNewsArrayListFromAsyncTask.toString());
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -195,7 +190,6 @@ public class NewsListView extends AppCompatActivity implements LoaderManager.Loa
 
         @Override
         public void deliverResult(Object data) {
-//            Log.e("INSIDE_DELIVER_RESULT","deliver result");
             setAdapterOnLoaderComplete();
         }
     }
