@@ -13,4 +13,5 @@ Countries Supported for Now and I plan to pull data from :
 Open to suggestions as well.
 
 Download the app @
-https://play.google.com/store/apps/details?id=neu.droid.guy.newsapp
+~~https://play.google.com/store/apps/details?id=neu.droid.guy.newsapp~~
+CURRENTLY UNDER A MAJOR UPGRADE
