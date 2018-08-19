@@ -93,8 +93,7 @@ public class FetchDataFromAPI extends ArrayList<News> {
                 json = readUsingBufferedStream(stream);
             }
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.e("ERROR_RESPONSE_CODE", String.valueOf(urlConnection.getResponseCode()));
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -137,61 +136,65 @@ public class FetchDataFromAPI extends ArrayList<News> {
         }
 
         JSONObject response = mainObject.getJSONObject("response");
-        JSONArray parsedArrayResultsFromAPI = response.getJSONArray("results");
-        JSONObject[] arrayOfJSONObject = new JSONObject[parsedArrayResultsFromAPI.length()];
-        JSONObject[] arrayOfShowFields = new JSONObject[arrayOfJSONObject.length];
-        String[] arrayOfWebUrls = new String[arrayOfJSONObject.length];
-
-        for (int i = 0; i < parsedArrayResultsFromAPI.length(); i++) {
-            // Take a empty JSONArray and assign each Object and
-            // make a new JSONArray for each object to iterate over its specific
-            // elements of each JSON object
-            arrayOfJSONObject[i] = parsedArrayResultsFromAPI.getJSONObject(i);
-            arrayOfShowFields[i] = arrayOfJSONObject[i].getJSONObject("fields");
-            arrayOfWebUrls[i] = arrayOfJSONObject[i].getString("webUrl");
-        }
-
-
-        if (arrayOfJSONObject.length != 0) {
+        try {
+            JSONArray parsedArrayResultsFromAPI = response.getJSONArray("results");
+            JSONObject[] arrayOfJSONObject = new JSONObject[parsedArrayResultsFromAPI.length()];
+            JSONObject[] arrayOfShowFields = new JSONObject[arrayOfJSONObject.length];
+            String[] arrayOfWebUrls = new String[arrayOfJSONObject.length];
 
             for (int i = 0; i < parsedArrayResultsFromAPI.length(); i++) {
-
-                JSONObject fields = arrayOfJSONObject[i].getJSONObject("fields");
-
-                /**The title of the news*/
-                String titleOfNews = arrayOfJSONObject[i].getString("webTitle");
-
-                /**Set the content Snippet*/
-                String newsSnippet = fields.getString("trailText");
-
-                /**Set the main Content*/
-                String mainContent = fields.getString("bodyText");
-
-                try {
-                    imageString = new URL(fields.getString("thumbnail"));
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    HttpURLConnection urlConnection = (HttpURLConnection) imageString.openConnection();
-                    urlConnection.setRequestMethod("GET");
-                    urlConnection.connect();
-                    if (urlConnection.getResponseCode() == 200) {
-                        InputStream stream = urlConnection.getInputStream();
-
-                        thumbnail = BitmapFactory.decodeStream(stream);
-                    } else {
-                        urlConnection.disconnect();
-
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                newsArrayList.add(new News(titleOfNews, newsSnippet, thumbnail, mainContent,arrayOfWebUrls[i]));
+                // Take a empty JSONArray and assign each Object and
+                // make a new JSONArray for each object to iterate over its specific
+                // elements of each JSON object
+                arrayOfJSONObject[i] = parsedArrayResultsFromAPI.getJSONObject(i);
+                arrayOfShowFields[i] = arrayOfJSONObject[i].getJSONObject("fields");
+                arrayOfWebUrls[i] = arrayOfJSONObject[i].getString("webUrl");
             }
+
+            if (arrayOfJSONObject.length != 0) {
+
+                for (int i = 0; i < parsedArrayResultsFromAPI.length(); i++) {
+
+                    JSONObject fields = arrayOfJSONObject[i].getJSONObject("fields");
+
+                    /**The title of the news*/
+                    String titleOfNews = arrayOfJSONObject[i].getString("webTitle");
+
+                    /**Set the content Snippet*/
+                    String newsSnippet = fields.getString("trailText");
+
+                    /**Set the main Content*/
+                    String mainContent = fields.getString("bodyText");
+
+                    try {
+                        imageString = new URL(fields.getString("thumbnail"));
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        HttpURLConnection urlConnection = (HttpURLConnection) imageString.openConnection();
+                        urlConnection.setRequestMethod("GET");
+                        urlConnection.connect();
+                        if (urlConnection.getResponseCode() == 200) {
+                            InputStream stream = urlConnection.getInputStream();
+
+                            thumbnail = BitmapFactory.decodeStream(stream);
+                        } else {
+                            urlConnection.disconnect();
+
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    newsArrayList.add(new News(titleOfNews, newsSnippet, thumbnail, mainContent, arrayOfWebUrls[i]));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
 
         return newsArrayList;
     }//End of parseAPIResponse GUARDIAN
@@ -240,9 +243,9 @@ public class FetchDataFromAPI extends ArrayList<News> {
                     if (urlConnection.getResponseCode() == 200) {
                         InputStream getImage_NYT = urlConnection.getInputStream();
                         thumbnail_NYT = BitmapFactory.decodeStream(getImage_NYT);
-                        int width = (int)(thumbnail_NYT.getWidth() + 0.5f);
-                        int height = ( thumbnail_NYT.getHeight() * 2);
-                        thumbnail_NYT = Bitmap.createScaledBitmap(thumbnail_NYT,width,height,true);
+                        int width = (int) (thumbnail_NYT.getWidth() + 0.5f);
+                        int height = (thumbnail_NYT.getHeight() * 2);
+                        thumbnail_NYT = Bitmap.createScaledBitmap(thumbnail_NYT, width, height, true);
 
                     } else {
                         //Add alternate image

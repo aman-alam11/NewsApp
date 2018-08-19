@@ -82,7 +82,6 @@ public class CountryNewsMapsActivity extends FragmentActivity implements OnMapRe
                  * If there is, dismiss it first
                  * */
                 if (showNewsPaper != null) {
-//                    Log.e("SNACK", showNewsPaper.toString());
                     showNewsPaper.dismiss();
                 }
 

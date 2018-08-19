@@ -1,3 +1,8 @@
+# Unpublished the app recently due to monetary issues involving multiple APIs and maps usage.
+# Will be publishing a newer version later on withe different set of APIs and open maps.
+
+
+
 # NewsApp
 A combined news app giving news from the leading newspapers of different countries
 
