@@ -1,5 +1,9 @@
-# Unpublished the app recently due to monetary issues involving multiple APIs and maps usage.
-# Will be publishing a newer version later on withe different set of APIs and open maps.
+# Unpublished the app recently due to monetary issues involving multiple APIs and maps usage. Will be publishing a newer version later on with different set of APIs and open maps.
+### Please add your api keys before using the app locally
+
+![PlayStore Screenshot](https://github.com/aman-alam11/NewsApp/blob/master/Screenshots/1.png)
+![Ratings for the app](https://github.com/aman-alam11/NewsApp/blob/master/Screenshots/2.png)
+
 
 
 
