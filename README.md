@@ -10,7 +10,7 @@
 # NewsApp
 A combined news app giving news from the leading newspapers of different countries
 
-Countries Supported for Now and I plan to pull data from :
+The app supports all countries but these are the main APIs that I use:
 
 1. US (New York Times https://developer.nytimes.com)
 2. UK (The Guardian http://open-platform.theguardian.com/)
