@@ -14,13 +14,9 @@ Countries Supported for Now and I plan to pull data from :
 
 1. US (New York Times https://developer.nytimes.com)
 2. UK (The Guardian http://open-platform.theguardian.com/)
-3. India (Not Finalized Yet)
-4. Canada (Not Finalized Yet)
-5. Germany (Not Finalized Yet). Thinking of zeit.de
-6. France (Not Finalized Yet)
+5. Germany (zeit.de)
 
 Open to suggestions as well.
 
 Download the app @
 ~~https://play.google.com/store/apps/details?id=neu.droid.guy.newsapp~~
-CURRENTLY UNDER A MAJOR UPGRADE
